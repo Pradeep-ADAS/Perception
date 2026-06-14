@@ -187,5 +187,67 @@ flowchart TD
 
 ---
 
+📈 **8. End-to-End Pipeline Test Case**
 
+This section demonstrates the performance of the full perception pipeline on an unseen test frame. The system processes raw sensor inputs to estimate drivable space, detect lane boundaries, and compute distances to surrounding objects.
+
+The results highlight the robustness of the geometric and vision-based methods under realistic and noisy scene conditions.
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="Test_Input.png" width="100%"/>
+      <p><b>Input Scenario</b></p>
+    </td>
+    <td align="center">
+      <img src="Test_Road.png" width="100%"/>
+      <p><b>Identified Drivable Region</b></p>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center">
+      <img src="Test_Lane.png" width="100%"/>
+      <p><b>Lane Identification</b></p>
+    </td>
+    <td align="center">
+      <img src="Test_Distance.png" width="100%"/>
+      <p><b>Distance to Impact</b></p>
+    </td>
+  </tr>
+</table>
+
+---
+
+🧭 **9. Future Extensions**
+
+Potential improvements to further enhance the robustness and scalability of the perception pipeline include:
+
+- Extending evaluation to diverse driving scenes (urban, highway, adverse weather) to test generalization. 
+- Explore the possibility of replacing rule-based lane detection with a learning-based lane segmentation model for improved robustness.
+
+---
+
+⚠️ **10. Data Note**
+
+This project was developed as part of a self-driving car perception assignment using simulated data from the CARLA environment. All inputs used in this pipeline (semantic segmentation, depth maps, and 2D object detections) are pre-generated and provided as part of the dataset. 
+
+The focus of this work is on perception logic, geometric reasoning, and classical computer vision techniques for scene understanding.
+
+---
+
+👨‍💻 **11. Skills Demonstrated**
+
+This project demonstrates an end-to-end autonomous driving perception pipeline that transforms raw sensor inputs into structured scene understanding.
+
+I demonstrate my ability to work with:
+
+- Camera-based 3D geometry and point cloud reconstruction 
+- Use semantic segmentation outputs for scene understanding
+- RANSAC-based ground plane estimation for drivable space detection    
+- Rule-based lane detection using classical computer vision (Canny + Hough Transform)  
+- Object detection filtering using segmentation consistency  
+- 3D distance estimation for obstacle proximity analysis  
+
+---
 
