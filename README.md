@@ -54,6 +54,11 @@ The project combines computer vision techniques with pretrained perception outpu
 - Camera Geometry – pinhole projection model for lifting 2D pixels into 3D space
   
 ---
+
+🧩 **5. Basics**
+
+---
+
 🧠 **6. Simplified Pipeline Setup**
 
 ```mermaid
