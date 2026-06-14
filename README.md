@@ -54,5 +54,89 @@ The project combines computer vision techniques with pretrained perception outpu
 - Camera Geometry – pinhole projection model for lifting 2D pixels into 3D space
   
 ---
+🧠 **6. Simplified Pipeline Setup**
+
+```mermaid
+flowchart TD
+    A([🚗 CARLA Simulator Dataset]) --> B[DatasetHandler]
+
+    B --> B1[RGB Image & Depth Map]
+    B --> B3[Segmentation Map]
+    B --> B4[Object Detections]
+
+    subgraph P1[" 📐 Part 1 — Drivable Space Estimation"]
+        direction TB
+        C1["3D Reconstruction
+        Project depth to 3D space"]
+        C2["Road Mask
+        Isolate road pixels"]
+        C3["Ground Plane Fitting
+        RANSAC plane estimation"]
+        C4["Drivable Space Mask
+        Filter inlier ground pixels"]
+        C1 --> C2 --> C3 --> C4
+    end
+
+    subgraph P2[" 🛣️ Part 2 — Lane Estimation"]
+        direction TB
+        D1["Lane Detection
+        Edges and Hough lines"]
+        D2["Line Merging
+        Cluster similar lines"]
+        D3["Lane Extrapolation
+        Extend to road bounds"]
+        D1 --> D2 --> D3
+    end
+
+    subgraph P3[" 🚙 Part 3 — Obstacle Distance Estimation"]
+        direction TB
+        E2["Detection Filtering
+        Validate with segmentation"]
+        E3["Distance Estimation
+        Min 3D Distance per object"]
+        E2 --> E3
+    end
+
+    B1 --> C1
+    B3 --> C2
+    B3 --> D1
+    B4 --> E2
+    B3 --> E2
+    C1 --> E3
+
+    C4 --> OUT1([ ✅ 3D Ground Plane & Drivable Space])
+    D3 --> OUT2([ ✅ Lane Boundaries])
+    E3 --> OUT3([ ✅ Min Distance of Impact from Obstacles])
+
+    style P1 fill:#1e3a5f,stroke:#4a9edd,color:#fff
+    style P2 fill:#1e4a2f,stroke:#4add7a,color:#fff
+    style P3 fill:#4a1e1e,stroke:#dd4a4a,color:#fff
+    style A fill:#2d2d2d,stroke:#aaa,color:#fff
+    style OUT1 fill:#1e3a5f,stroke:#4a9edd,color:#fff
+    style OUT2 fill:#1e4a2f,stroke:#4add7a,color:#fff
+    style OUT3 fill:#4a1e1e,stroke:#dd4a4a,color:#fff
+```
+**Part 1**
+  - **3D Reconstruction**: Converts depth image into a 3D point cloud (spatial map of the scene) using camera geometry.
+  - **Road Mask**: Extracts road pixels from the segmentation map. These pixels are used as input for 3D road modeling.
+  - **Ground Plane Fitting (RANSAC)** - Fits a flat road surface to the 3D road points from the road mask. RANSAC is a method that finds the best plane while ignoring noisy/outlier points (e.g., cars, pedestrians on the road).
+  - **Drivable Space Mask** - Keeps points close to the estimated road plane, representing the physically drivable area.
+
+**Part 2**
+  - **Lane Detection**: Finds lane markings by detecting edges and line segments in segmentation output.
+  - **Line Merging**: Groups and combines small, similar line segments into one clean lane line.
+  - **Lane Extrapolation** → Extends lane lines across the road and picks the lane where the car is currently driving.
+
+**Part 3**
+  - **Detection Filtering**: Removes incorrect object detections using segmentation consistency (keeps only likely real objects).
+  - **Distance Estimation**: Computes real-world distance by converting pixels inside each bounding box into 3D points and taking the closest one.
+
+---
+
+📈 **7. Results**
+
+
+---
+
 
 
