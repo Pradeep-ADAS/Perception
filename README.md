@@ -57,6 +57,21 @@ The project combines computer vision techniques with pretrained perception outpu
 
 🧩 **5. Basics**
 
+*(A) Stereo Cameras* <br>
+
+Depth maps are typically generated using stereo cameras, which mimic human binocular vision by capturing the same scene from two slightly different viewpoints. The difference between the two images allows the system to estimate how far each pixel is from the camera.
+
+In this project, the depth map is provided directly and represents per-pixel distance information used later for 3D scene understanding and object distance estimation.
+
+<table>
+  <tr>
+    <td align="center">
+      <b>Sensor Stack </b><br>
+      <img src="Stereo_Camera.PNG" width="600"/>
+    </td>
+  </tr>
+</table>
+
 ---
 
 🧠 **6. Simplified Pipeline Setup**
